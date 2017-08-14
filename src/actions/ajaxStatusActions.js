@@ -1,14 +1,10 @@
-"use strict";
-import * as types from '../const/actionTypes';
+import * as types from './actionTypes';
 
 export function beginAjaxCall() {
-  return {
-    type: types.AJAXS.BEGIN_AJAX_CALL
-  };
+  return {type: types.BEGIN_AJAX_CALL};
 }
 
 export function ajaxCallError() {
-  return {
-    type: types.AJAXS.AJAX_CALL_ERROR
-  };
+  return {type: types.AJAX_CALL_ERROR};
 }
+

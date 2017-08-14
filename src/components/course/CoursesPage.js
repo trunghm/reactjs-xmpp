@@ -1,16 +1,18 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-import * as courseActions from '../../actions/courseActions';
 import {bindActionCreators} from 'redux';
+import * as courseActions from '../../actions/courseActions';
 import CourseList from './CourseList';
 import {browserHistory} from 'react-router';
-
 
 class CoursesPage extends React.Component {
   constructor(props, context) {
     super(props, context);
-
     this.redirectToAddCoursePage = this.redirectToAddCoursePage.bind(this);
+  }
+
+  courseRow(course, index) {
+    return <div key={index}>{course.title}</div>;
   }
 
   redirectToAddCoursePage() {
@@ -19,6 +21,7 @@ class CoursesPage extends React.Component {
 
   render() {
     const {courses} = this.props;
+
     return (
       <div>
         <h1>Courses</h1>
@@ -36,7 +39,6 @@ CoursesPage.propTypes = {
   courses: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired
 };
-
 
 function mapStateToProps(state, ownProps) {
   return {
