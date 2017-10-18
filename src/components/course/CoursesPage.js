@@ -4,11 +4,17 @@ import {bindActionCreators} from 'redux';
 import * as courseActions from '../../actions/courseActions';
 import CourseList from './CourseList';
 import {browserHistory} from 'react-router';
+import toastr from 'toastr';
+import {coursesSortedForDisplay} from '../../selectors/selectors' ;
 
 class CoursesPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.redirectToAddCoursePage = this.redirectToAddCoursePage.bind(this);
+    this.deleteCourse = this.deleteCourse.bind(this);
+    this.state = {
+      deletedCourseId: ''
+    };
   }
 
   courseRow(course, index) {
@@ -17,6 +23,20 @@ class CoursesPage extends React.Component {
 
   redirectToAddCoursePage() {
     browserHistory.push('/course');
+  }
+
+  deleteCourse(courseId) {
+    this.setState({deletedCourseId: courseId});
+
+    this.props.actions.deleteCourse(courseId)
+      .then(() => {
+        toastr.success('Course deleted');
+        this.setState({deletedCourseId: ''});
+      })
+      .catch(error => {
+        toastr.error(error);
+        this.setState({deletedCourseId: ''});
+      });
   }
 
   render() {
@@ -29,7 +49,10 @@ class CoursesPage extends React.Component {
                value="Add Course"
                className="btn btn-primary"
                onClick={this.redirectToAddCoursePage}/>
-        <CourseList courses={courses}/>
+        {courses && courses.length > 0
+          ? <CourseList courses={courses} onDelete={this.deleteCourse} deletedCourseId={this.state.deletedCourseId}/>
+          : ''
+        }
       </div>
     );
   }
@@ -42,7 +65,7 @@ CoursesPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    courses: state.courses
+    courses: coursesSortedForDisplay(state.courses, 'category')
   };
 }
 
