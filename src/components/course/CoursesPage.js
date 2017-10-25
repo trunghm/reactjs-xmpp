@@ -65,7 +65,7 @@ CoursesPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    courses: coursesSortedForDisplay(state.courses, 'category')
+    courses: coursesSortedForDisplay(state.courses, 'title')
   };
 }
 
