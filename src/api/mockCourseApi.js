@@ -98,18 +98,6 @@ class CourseApi {
       }, delay);
     });
   }
-
-  static deleteCourse(courseId) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const indexOfCourseToDelete = courses.findIndex(course => {
-          return course.courseId == courseId;
-        });
-        courses.splice(indexOfCourseToDelete, 1);
-        resolve();
-      }, delay);
-    });
-  }
 }
 
 export default CourseApi;
